@@ -98,7 +98,7 @@ or use
 ./get-telegram-messages.sh telegram-topic-source
 ```
 
-For demostration of Telegram sink connected we need to deploy our KafkaStreams app. You can do it by th efollowing command:
+For demo of Telegram sink connector we need to deploy our KafkaStreams app. You can do it by the following command:
 ```bash
 oc apply -f clients-examples/hello-world-streams.yaml
 ```
@@ -110,7 +110,7 @@ oc apply -f 04-telegram-connector-sink.yaml
 ```
 
 In the YAML, notice how the API token is mounted from a secret.
-Once the connector is deployed, you can check the status to see if it is running, you can go to the Telegram app and talk with the bot `@strimzi-connect-bot`.
+Once the connector is deployed, you can check the status to see if it is running, you can go to the Telegram app and talk with the bot `@StrimziQEBot`.
 The bot will response on every your message.
 It's achieved by simple KafkaStreams application which reads messages from `telegram-topic-source` and based on data there send response to `telegram-topic-sink`.
 Telegram sink connector then send messages from `telegram-topic-sink` to specific chat based on telegram `chatId`.
