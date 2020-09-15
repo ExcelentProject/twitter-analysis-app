@@ -1,0 +1,25 @@
+connectors/
+00-aws-credentials.yaml
+00-aws-credentials.properties
+00-telegram-credentials.yaml
+00-telegram-credentials.properties
+
+# Maven specific
+**/target/*
+
+# IntelliJ IDEA specific
+.idea/
+*.iml
+
+# Eclipse specific
+**/.project
+**/.settings/*
+**/.prefs
+**/.classpath
+**/.factorypath
+/target/
+
+**/dependency-reduced-pom.xml
+
+# VSCode
+.vscode/

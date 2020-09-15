@@ -1,0 +1,96 @@
+###########
+# Kafka Connect
+###########
+
+# Topics
+---
+apiVersion: kafka.strimzi.io/v1beta1
+kind: KafkaTopic
+metadata:
+  name: telegram-topic-source
+  labels:
+    strimzi.io/cluster: my-cluster
+spec:
+  partitions: 1
+  replicas: 1
+
+---
+apiVersion: kafka.strimzi.io/v1beta1
+kind: KafkaTopic
+metadata:
+  name: telegram-topic-sink
+  labels:
+    strimzi.io/cluster: my-cluster
+spec:
+  partitions: 1
+  replicas: 1
+
+---
+
+# Connect
+apiVersion: kafka.strimzi.io/v1alpha1
+kind: KafkaConnect
+metadata:
+  name: my-connect-cluster
+  labels:
+    app: my-connect-cluster
+  annotations:
+    strimzi.io/use-connector-resources: "true"
+spec:
+  image: frawless/kafka:camel-kafka-2.6.0
+  imagePullPolicy: Always
+  replicas: 1
+  resources:
+    requests:
+      memory: 4Gi
+    limits:
+      memory: 4Gi
+  bootstrapServers: my-cluster-kafka-bootstrap:9093
+  tls:
+    trustedCertificates:
+      - secretName: my-cluster-cluster-ca-cert
+        certificate: ca.crt
+  metrics:
+    lowercaseOutputName: true
+    lowercaseOutputLabelNames: true
+    rules:
+      - pattern : "kafka.connect<type=connect-worker-metrics>([^:]+):"
+        name: "kafka_connect_connect_worker_metrics_$1"
+      - pattern : "kafka.connect<type=connect-metrics, client-id=([^:]+)><>([^:]+)"
+        name: "kafka_connect_connect_metrics_$1_$2"
+  authentication:
+    type: tls
+    certificateAndKey:
+      secretName: my-connect-cluster
+      certificate: user.crt
+      key: user.key
+  jvmOptions:
+    gcLoggingEnabled: false
+  externalConfiguration:
+    volumes:
+      - name: telegram-credentials
+        secret:
+          secretName: telegram-credentials
+  config:
+    config.providers: file
+    config.providers.file.class: org.apache.kafka.common.config.provider.FileConfigProvider
+    key.converter: org.apache.kafka.connect.json.JsonConverter
+    value.converter: org.apache.kafka.connect.json.JsonConverter
+    key.converter.schemas.enable: false
+    value.converter.schemas.enable: false
+---
+
+# # Route for outside access
+# apiVersion: route.openshift.io/v1
+# kind: Route
+# metadata:
+#   name: my-connect-cluster
+#   labels:
+#     app: my-connect-cluster
+# spec:
+#   port:
+#     targetPort: rest-api
+#   to:
+#     kind: Service
+#     name: my-connect-cluster-connect-api
+# ---
