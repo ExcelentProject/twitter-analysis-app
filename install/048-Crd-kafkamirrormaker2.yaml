@@ -32,7 +32,7 @@ spec:
     scale:
       specReplicasPath: .spec.replicas
       statusReplicasPath: .status.replicas
-      labelSelectorPath: .status.labelSelector
+      labelSelectorPath: .status.selector
   validation:
     openAPIV3Schema:
       properties:
@@ -748,8 +748,6 @@ spec:
                       properties:
                         fsGroup:
                           type: integer
-                        fsGroupChangePolicy:
-                          type: string
                         runAsGroup:
                           type: integer
                         runAsNonRoot:
@@ -786,8 +784,6 @@ spec:
                             gmsaCredentialSpec:
                               type: string
                             gmsaCredentialSpecName:
-                              type: string
-                            runAsUserName:
                               type: string
                       description: Configures pod-level security attributes and common
                         container settings.
@@ -1119,76 +1115,8 @@ spec:
                               type: string
                             gmsaCredentialSpecName:
                               type: string
-                            runAsUserName:
-                              type: string
                       description: Security context for the container.
                   description: Template for the Kafka Connect container.
-                initContainer:
-                  type: object
-                  properties:
-                    env:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          name:
-                            type: string
-                            description: The environment variable key.
-                          value:
-                            type: string
-                            description: The environment variable value.
-                      description: Environment variables which should be applied to
-                        the container.
-                    securityContext:
-                      type: object
-                      properties:
-                        allowPrivilegeEscalation:
-                          type: boolean
-                        capabilities:
-                          type: object
-                          properties:
-                            add:
-                              type: array
-                              items:
-                                type: string
-                            drop:
-                              type: array
-                              items:
-                                type: string
-                        privileged:
-                          type: boolean
-                        procMount:
-                          type: string
-                        readOnlyRootFilesystem:
-                          type: boolean
-                        runAsGroup:
-                          type: integer
-                        runAsNonRoot:
-                          type: boolean
-                        runAsUser:
-                          type: integer
-                        seLinuxOptions:
-                          type: object
-                          properties:
-                            level:
-                              type: string
-                            role:
-                              type: string
-                            type:
-                              type: string
-                            user:
-                              type: string
-                        windowsOptions:
-                          type: object
-                          properties:
-                            gmsaCredentialSpec:
-                              type: string
-                            gmsaCredentialSpecName:
-                              type: string
-                            runAsUserName:
-                              type: string
-                      description: Security context for the container.
-                  description: Template for the Kafka init container.
                 podDisruptionBudget:
                   type: object
                   properties:
@@ -1387,8 +1315,24 @@ spec:
                 type: object
               description: List of MirrorMaker 2.0 connector statuses, as reported
                 by the Kafka Connect REST API.
-            labelSelector:
-              type: string
+            podSelector:
+              type: object
+              properties:
+                matchExpressions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      key:
+                        type: string
+                      operator:
+                        type: string
+                      values:
+                        type: array
+                        items:
+                          type: string
+                matchLabels:
+                  type: object
               description: Label selector for pods providing this resource.
             replicas:
               type: integer

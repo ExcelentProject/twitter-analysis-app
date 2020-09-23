@@ -154,8 +154,7 @@ metadata:
   annotations:
     strimzi.io/use-connector-resources: "true"
 spec:
-  image: frawless/kafka:camel-kafka-2.6.0
-  imagePullPolicy: Always
+  image: frawless/kafka:camel-kafka-2.5.0
   replicas: 1
   resources:
     requests:
