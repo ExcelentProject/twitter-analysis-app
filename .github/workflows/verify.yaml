@@ -28,7 +28,7 @@ jobs:
 
       - name: Build images
         run:
-          make java_build
+          make build
           make docker_build
 
       - name: Tag & Push
