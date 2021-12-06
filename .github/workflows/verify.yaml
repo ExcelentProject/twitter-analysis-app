@@ -20,8 +20,8 @@ jobs:
 
       - name: Login to quay
         env:
-          CONTAINER_USER: $(QUAY_USER)
-          CONTAINER_PASSWORD: $(QUAY_PASSWORD)
+          CONTAINER_USER: ${{ secrets.QUAY_USER }}
+          CONTAINER_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
           CONTAINER_REGISTRY: quay.io
         run:
           docker login quay.io -u $QUAY_USER -p $QUAY_PASSWORD
