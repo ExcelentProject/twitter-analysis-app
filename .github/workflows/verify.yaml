@@ -8,7 +8,7 @@ on:
       - "*"
 
 jobs:
-  install:
+  build-and-push:
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
@@ -24,7 +24,7 @@ jobs:
           CONTAINER_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
           CONTAINER_REGISTRY: quay.io
         run:
-          docker login -u CONTAINER_USER -p CONTAINER_PASSWORD $CONTAINER_REGISTRY
+          docker login -u $CONTAINER_USER -p $CONTAINER_PASSWORD $CONTAINER_REGISTRY
 
       - name: Build & Push
         env:
