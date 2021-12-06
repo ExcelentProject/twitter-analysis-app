@@ -1,0 +1,33 @@
+name: Build & Push
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - "*"
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel Previous Runs
+        if: github.event_name == 'pull_request'
+        uses: styfle/cancel-workflow-action@0.9.1
+
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Login to quay
+        env:
+          CONTAINER_USER: $(QUAY_USER)
+          CONTAINER_PASSWORD: $(QUAY_PASSWORD)
+          CONTAINER_REGISTRY: quay.io
+        run:
+          docker login quay.io -u $QUAY_USER -p $QUAY_PASSWORD
+
+      - name: Build & Push
+        env:
+          USER: tealc
+        run:
+          make
