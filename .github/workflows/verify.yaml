@@ -24,7 +24,7 @@ jobs:
           CONTAINER_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
           CONTAINER_REGISTRY: quay.io
         run:
-          docker login quay.io -u $QUAY_USER -p $QUAY_PASSWORD
+          docker login -u CONTAINER_USER -p CONTAINER_PASSWORD $CONTAINER_REGISTRY
 
       - name: Build & Push
         env:
