@@ -26,8 +26,15 @@ jobs:
         run:
           docker login -u $CONTAINER_USER -p $CONTAINER_PASSWORD $CONTAINER_REGISTRY
 
-      - name: Build & Push
+      - name: Build images
         env:
           USER: tealc
         run:
-          make
+          make docker_build
+
+      - name: Tag & Push
+        env:
+          USER: tealc
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run:
+          make docker_tag
