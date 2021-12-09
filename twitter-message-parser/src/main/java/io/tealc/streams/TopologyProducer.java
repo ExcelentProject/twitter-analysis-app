@@ -37,10 +37,10 @@ public class TopologyProducer {
                         String tweetHashtags = Arrays.stream(value.getHashtagEntities()).map(HashtagEntity::getText).collect(Collectors.joining(","));
                         String statusUrl = "https://twitter.com/" + value.getUser().getScreenName() + "/status/" + value.getId();
 
-                        String telegramTweet = String.format("Hey! There is a new tweet which might interest you!\n" +
-                                        "<b>Hashtags</b>: '%s'\n" +
-                                        "<b>Author</b>: %s\n" +
-                                        "<b>URL</b>: %s\n\n" +
+                        String telegramTweet = String.format("Hey! There is a new tweet which might interest you!\n\n" +
+                                        "Hashtags: '%s'\n" +
+                                        "Author: %s\n" +
+                                        "URL: %s\n\n" +
                                         "%s\n",
                                 tweetHashtags, tweetAuthor, statusUrl, tweetText);
 
