@@ -38,11 +38,11 @@ public class TopologyProducer {
                         String statusUrl = "https://twitter.com/" + value.getUser().getScreenName() + "/status/" + value.getId();
 
                         String telegramTweet = String.format("Hey! There is a new tweet which might interest you!\n" +
-                                        "**Hashtags**: '**%s**'\n" +
-                                        "**Author**: %s:\n" +
-                                        "**URL**: %s\n\n" +
+                                        "<strong>Hashtags</strong>: '%s'\n" +
+                                        "<strong>Author</strong>: %s\n" +
+                                        "<strong>URL</strong>: %s\n\n" +
                                         "%s\n",
-                                tweetHashtags, tweetAuthor, tweetText, statusUrl);
+                                tweetHashtags, tweetAuthor, statusUrl, tweetText);
 
                         return List.of(telegramTweet);
                     }
