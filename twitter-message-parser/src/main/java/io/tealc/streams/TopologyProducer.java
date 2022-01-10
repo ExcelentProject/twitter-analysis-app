@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 public class TopologyProducer {
     private static final Logger LOG = Logger.getLogger(TopologyProducer.class);
 
+
     TopologyProducerConfig topologyProducerConfig = TopologyProducerConfig.fromEnv();
 
     @Produces
@@ -28,7 +29,7 @@ public class TopologyProducer {
 
         builder.stream(topologyProducerConfig.getSourceTopic(), Consumed.with(Serdes.ByteArray(), tweetSerde))
                 .flatMapValues(value -> {
-                    if (value.getRetweetedStatus() != null)  {
+                    if (value.getRetweetedStatus() != null) {
                         // We ignore retweets => we do not want alert for every retweet
                         return List.of();
                     } else {
