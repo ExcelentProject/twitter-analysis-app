@@ -13,7 +13,7 @@ public class TopologyProducerConfig {
         this.targetTopic = targetTopic;
     }
 
-    public static TopologyProducerConfig fromEnv(){
+    public static TopologyProducerConfig fromEnv() {
         String sourceTopic = System.getenv("SOURCE_TOPIC");
         String targetTopic = System.getenv("TARGET_TOPIC");
 
@@ -31,8 +31,8 @@ public class TopologyProducerConfig {
     @Override
     public String toString() {
         return "TopologyProducerConfig{" +
-            ", sourceTopic='" + sourceTopic + '\'' +
-            ", targetTopic='" + targetTopic + '\'' +
-            '}';
+                ", sourceTopic='" + sourceTopic + '\'' +
+                ", targetTopic='" + targetTopic + '\'' +
+                '}';
     }
 }
